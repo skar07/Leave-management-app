@@ -21,7 +21,7 @@ const authMiddleware = setContext((_, { headers }) => {
 });
 
 // Setup your client
-const client = new ApolloClient({
+export const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: restLink
 });
