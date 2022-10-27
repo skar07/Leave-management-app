@@ -67,10 +67,6 @@ export default function Login() {
 							setPassword(e.currentTarget.value)
 					}
 				/>
-				<div className='flex space-x-2 justify-center'>
-					<input type='checkbox' required />
-					<p className='text-sm font-semibold text-gray-700'>I agree to all <a href='#' className=' text-blue-600'>terms and conditions</a></p>
-				</div>
 				<button
 					onClick={
 						() => {
