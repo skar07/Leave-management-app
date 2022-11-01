@@ -6,7 +6,7 @@ import { gql } from '@apollo/client';
 import { client } from '../app/graphql';
 
 import { UserStore } from '../app/store';
-import { AUTH_TOKEN } from '../app/constants';
+import { AUTH_TOKEN, REFRESH_TOKEN} from '../app/constants';
 
 export default function Login() {
 	const router = useRouter()
@@ -29,12 +29,13 @@ export default function Login() {
 			login(
 				input: $input
 			) @rest(
-				type: "AuthLogin",
-				path: "/auth/login", 
+				type: "Login",
+				path: "/auth/v1/token?grant_type=password", 
 				method: "POST"
 			) {
-				token
-				user
+				access_token
+				refresh_token
+				expiry
 			}
             }
 	`;
@@ -82,20 +83,18 @@ export default function Login() {
 								})
 								.then((response) => {
 									const { login } = response?.data;
-
-									const { token, user } = login;
-
+									const { access_token, refresh_token} = login;
 									// If the authentication is successful
-									if (token) {
+									if (access_token) {
 										// Update user store to reflect the user's details
 										UserStore.update(
 											s => {
 												s.isAuthenticated = true;
-												s.name = user.name;
 											}
 										)
 										// Save token to local storage
-										localStorage.setItem(AUTH_TOKEN, token);
+										localStorage.setItem(AUTH_TOKEN, access_token);
+										localStorage.setItem(REFRESH_TOKEN, refresh_token)
 									}
 									// TODO: handle errors
 								});
@@ -103,7 +102,7 @@ export default function Login() {
 					}
 					className='px-10 py-3.5 text-white font-semibold text-lg bg-blue-700 rounded-xl'
 				>
-					Sign up
+					Sign in
 				</button>
 				<div className='flex justify-center text-gray-800 align-center'>
 					<span className='border-t border-gray-800 w-1/3 mt-3.5' />
