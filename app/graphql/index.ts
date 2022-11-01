@@ -1,11 +1,33 @@
 import { AUTH_TOKEN } from '../constants';
 
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloLink, InMemoryCache } from '@apollo/client';
 import { RestLink } from 'apollo-link-rest';
-import { setContext } from '@apollo/client/link/context';
+
+const authRestLink = new ApolloLink((operation, forward) => {
+	//TODO: Fix type errors
+	operation.setContext(({ headers }) => {
+		const token = localStorage.getItem(AUTH_TOKEN);
+		return {
+			headers: {
+				...headers,
+				Accept: "application/json",
+				Authorization: token ? `Bearer ${token}` : null,
+			}
+		};
+	});
+
+	return forward(operation).map(result => {
+		const { restResponses } = operation.getContext();
+		const authTokenResponse = restResponses.find(res => res.headers.has("Authorization"));
+		if (authTokenResponse) {
+			localStorage.setItem("token", authTokenResponse.headers.get("Authorization"));
+		}
+		return result;
+	});
+});
 
 // Set `RestLink` with your endpoint
-const restLink = new RestLink({ 
+const restLink = new RestLink({
 	uri: "https://dkgicggupnrxldwvkeft.supabase.co/",
 	customFetch: fetch,
 	headers: {
@@ -14,21 +36,9 @@ const restLink = new RestLink({
 	},
 });
 
-/** Authentication middleware */
-const authMiddleware = setContext((_, { headers }) => {
-	// Get the authentication token, if exists
-	const token = localStorage.getItem(AUTH_TOKEN);
-	// append headers to context, passed to RESTLink
-	return {
-		headers: {
-			...headers,
-			authorization: token ? `Bearer ${token}` : null,
-		}
-	};
-});
-
 // Setup your client
 export const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  link: restLink
+	cache: new InMemoryCache(),
+	link: ApolloLink.from([authRestLink, restLink])
 });
+
