@@ -1,0 +1,47 @@
+.container {
+	display: flex;
+	flex-direction: column;
+}
+
+.main {
+	top: 0;
+	right:0;
+	padding: 20px 20px 20px 20px;
+	height: 7vh;
+	width: 85vw;
+	background-color: rgb(228, 228, 227);
+	padding-left: 3vw;
+}
+
+.subnav {
+	display: flex;
+	width: inherit;
+	height: 10vh;
+	justify-content: flex-start;
+	border-bottom-width: 3px;
+	border-color: rgb(229 231 235);
+	padding: 3.5vh 0.5vw 3.5vh 0.5vw;
+	font-size: large;
+	font-weight: bold;
+	color: rgb(41, 70, 110);
+}
+
+.links {
+	display: flex;
+	width: 38vw;
+	height: 6.5vh;
+	justify-content: space-around;
+}
+
+
+.linkeffect:hover {
+	color: rgb(2 132 199);
+	border-bottom-width: 3px;
+	border-color: rgb(2 132 199);
+	width: 10vw;
+	padding: inherit;
+	text-align: center;
+	
+}
+
+
