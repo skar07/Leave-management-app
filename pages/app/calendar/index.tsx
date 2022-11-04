@@ -1,12 +1,14 @@
 import React from 'react'
 import Calendar from 'react-calendar';
 
+import { Layout } from '../../../components/Layout';
+
 export default function LeaveCalendar() {
 	const [value, onChange] = React.useState(new Date());
 
-	return(
-		<div>
-			<Calendar onChange={onChange} value={value} />		
-		</div>
+	return (
+		<Layout title='Calendar'>
+			<Calendar onChange={onChange} value={value} />
+		</Layout>
 	)
 }
