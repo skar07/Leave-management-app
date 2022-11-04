@@ -23,7 +23,19 @@ type ColumnObject = {
 	name: string,
 	id: number
 };
+
 type TableColumnProps = {
 	Columns?: Array<ColumnObject>
 };
 
+type RowObject = {
+	id: number;
+	start_date: string;
+	end_date: string;
+	type: string;
+	reason: string;
+}
+
+type TableRowProps = {
+	Rows?: Array<RowObject>
+}
