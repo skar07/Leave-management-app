@@ -1,0 +1,26 @@
+.container {
+	width: 30vw;
+	height: 10vh;
+	text-align: center;
+	padding: 2vh 1vw 2vh 1vw;
+}
+
+.startdate{
+	color: rgb(75 85 99);
+	font-weight: bold;
+}
+
+.enddate{
+	color: rgb(75 85 99);
+	font-weight: bold;
+}
+
+.leavetype{
+	font-weight: bold;
+}
+
+.reason{
+	overflow-x: hidden;
+	font-weight: bold;
+	color:  rgb(12 74 110);
+}
