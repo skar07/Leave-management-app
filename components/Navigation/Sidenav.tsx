@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image'
+import Link from 'next/link';
 
 import styles from '../../styles/sidenav.module.css'
 
@@ -13,8 +14,14 @@ export const SideNav: React.FC<any> = () => {
 				alt='Logo'
 				className={styles.logo}
 			/>
-			<span className={styles.options}>Leave management</span>
-			<span className={styles.options}>Log out</span>
+			<div className={styles.links}>
+				<Link href='/app' legacyBehavior>
+					<a className={styles.options}>Leave management</a>
+				</Link>
+				<Link href='#' legacyBehavior>
+					<a className={styles.options}>Log out</a>
+				</Link>
+			</div>
 		</div>
 	)
 }
