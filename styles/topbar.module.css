@@ -9,34 +9,67 @@
 }
 
 .bodycontainer {
-	padding: 4vh 0 4vh 0;
+	padding: 4vh 2vw 4vh 2vw;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
+	text-align: center;
 }
 
-.leavestaken{
+.leavestaken {
 	height: 4vh;
-	padding: 0 5vw 0 5vw;
-	font-size: larger;
+	padding: 0 2vw 0 2vw;
+	margin-right: 2vw;
+	font-size: x-large;
 	font-weight: bold;
 	color: rgb(51 65 85);
 	border-right-width: 3px;
 	border-color: rgb(212 212 212);
+	text-align: left;
+
 }
 
 .upcoming {
 	height: 4vh;
-	padding: 0 5vw 0 5vw;
-	font-size: larger;
+	padding: 0 2vw 0 2vw;
+	margin-right: 2vw;
+	font-size: x-large;
 	font-weight: bold;
 	color: rgb(51 65 85);
 	border-right-width: 3px;
 	border-color: rgb(212 212 212);
+	text-align: left;
 }
 
 .pastleaves {
-	font-size: larger;
+	font-size: x-large;
+	margin-right: 1vw;
+	padding: 0 2vw 0 2vw;
 	font-weight: bold;
 	color: rgb(51 65 85);
+	text-align: left;
+}
+
+.totalnumber {
+	margin-right: 1.25rem;
+	padding: 0.75rem;
+	background-color: rgb(240 253 244);
+	border-radius: 0.25rem;
+	color: rgb(34 197 94);
+}
+
+.upcomingnumber {
+	margin-right: 1.25rem;
+	padding: 0.75rem;
+	background-color: #fef2f2;
+	border-radius: 0.25rem;
+	color: rgb(239 68 68);
+}
+
+.pastnumber {
+	margin-right: 1.25rem;
+	padding: 0.75rem;
+	background-color: #fef2f2;
+	border-radius: 0.25rem;
+	color: rgb(239 68 68);
 }

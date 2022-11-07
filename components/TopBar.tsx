@@ -7,15 +7,15 @@ export const TopBar: React.FC<any> = () => {
 		<div className={styles.container}>
 			<div className={styles.bodycontainer}>
 				<div className={styles.leavestaken}>
-					<span className='mr-5'>10</span>
+					<span className={styles.totalnumber}>10</span>
 					Leaves taken
 				</div>
 				<div className={styles.upcoming}>
-					<span className='mr-5'>10</span>
+					<span className={styles.upcomingnumber}>10</span>
 					Upcoming leaves
 				</div>
 				<div className={styles.pastleaves}>
-					<span className='mr-5'>10</span>
+					<span className={styles.pastnumber}>10</span>
 					Past leaves
 				</div>
 			</div>
