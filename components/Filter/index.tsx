@@ -1,67 +1,40 @@
-import React from 'react';
-
-import {
-	handleCurrentMonth,
-	handleLastMonth,
-	handleLastSixMonths,
-	handleLastOneYear,
-	handleCustomDates
-} from './filterItems';
-
-interface ChoiceResponse {
-	id: number;
-	created_at: string;
-	start_date: string;
-	end_date: string;
-	user_id: string;
-	reason: string | null;
-}
-
-export type FilterProps = {
-	choice?: string;
-}
-export type FilterChoice = 'currentMonth' | 'lastMonth' | 'lastSixMonths' | 'lastOneYear' | 'customeDates'
+import React, { ReactElement } from 'react';
+import styles from '../../styles/filter.module.css'
+import { UserStore } from '../../app/store';
 
 const FilterChoiceComponents: Record<
-FilterChoice, 
-( fn: () => Array<ChoiceResponse>) => any
+	FilterChoice,
+	JSX.Element
 > = {
-	currentMonth: () => handleCurrentMonth(),
-	lastMonth: () => handleLastMonth(),
-	lastSixMonths: () => handleLastSixMonths(),
-	lastOneYear: () => handleLastOneYear(),
-	customeDates: () => handleCustomDates()
+	currentMonth: <p>Current Month</p>,
+	lastMonth: <p>Last Month</p>,
+	lastSixMonths: <p>Last 6 months</p>,
+	lastOneYear: <p>Last 1 year</p>,
+	customDates: <p>Custom dates</p>
 }
 
-export const Filter: React.FC<FilterProps> = ({ choice = 'currentMonth' }) => {
-	const [searchChoice, setSearchChoice] = React.useState(choice)
-	const [searchResult, setSearchResult] = React.useState<any>()
-	//Check for ComponentWillMount implementation
-	React.useEffect(() => {
-		switch (searchChoice.toLowerCase()) {
-			case "currentmonth":
-				//setSearchResult(handleCurrentMonth());
-				setSearchResult(handleCurrentMonth())
-				break;
-			case "lastmonth":
-				setSearchResult(handleLastMonth());
-				break;
-			case "lastsixmonths":
-				setSearchResult(handleLastSixMonths());
-				break;
-			case "lastoneyear":
-				setSearchResult(handleLastOneYear());
-				break;
-			default:
-				setSearchResult(handleCustomDates());
-				break;
-		}
-	}, [searchChoice])
-
+export const Filter: React.FC<FilterProps> = () => {
+	const [searchChoice, setSearchChoice] = React.useState("choice");
 	return (
-
-		<div>
-
+		<div className={styles.container}>
+			<select className={styles.elements}
+				onChange={
+					(value) => {
+						setSearchChoice(value.target.value as FilterChoice)
+						UserStore.update(s => {
+							s.choice = searchChoice
+						})
+					}
+				}
+			>
+				{
+					Object
+						.keys(FilterChoiceComponents)
+						.map((func: any) =>
+							<option value={func}>{func}</option>
+						)
+				}
+			</select>
 		</div>
 	)
 }
