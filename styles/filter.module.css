@@ -1,0 +1,10 @@
+.elements{
+	background-color: rgb(240 249 255);
+	text-align: center;
+	width: fit-content;
+	padding: 1vh 1vw 1vh 1vw;
+	margin-left: 2.5vw;;
+	border-radius: 8px;
+	color: rgb(2 132 199);
+	font-weight: bold;
+}
