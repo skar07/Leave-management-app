@@ -17,7 +17,7 @@ export const TopNav: React.FC<any> = () => {
 					<Link href='/app/calendar' legacyBehavior>
 						<a className={styles.linkeffect}>Calendar</a>
 					</Link>
-					<Link href='/app/create' legacyBehavior>
+					<Link href='/app/create-leave' legacyBehavior>
 						<a className={styles.linkeffect}>Create a leave</a>
 					</Link>
 				</div>
