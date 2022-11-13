@@ -1,11 +1,9 @@
 /** Store types/interfaces */
 interface UserStore {
 	isAuthenticated: boolean;
-	id?: string;
-	name?: string;
-	email?: string;
 	refresh_token?: string;
 	expires_in?: number;
+	choice?: string;
 };
 interface TableStore {
 	isChoice: string;
@@ -37,5 +35,22 @@ type RowObject = {
 }
 
 type TableRowProps = {
-	Rows?: Array<RowObject>
+	map?: any;
+	data: Array<RowObject> | Object[];
 }
+
+/** Filter component types/interfaces */
+interface ChoiceResponse {
+	id: number;
+	created_at: string;
+	start_date: string;
+	end_date: string;
+	user_id: string;
+	reason: string | null;
+}
+
+type FilterProps = {
+	choice?: string;
+}
+
+type FilterChoice = 'currentMonth' | 'lastMonth' | 'lastSixMonths' | 'lastOneYear' | 'customDates';

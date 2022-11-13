@@ -1,5 +1,9 @@
 import { client } from '../../app/graphql';
 import { gql } from '@apollo/client';
+import React from 'react';
+import { TypeInfo } from 'graphql';
+
+type Handlefunctype<T> = T extends Array<infer ArrayType> ? ArrayType : T;
 
 const FILTER_QUERY = gql`
 	query FilterQuery($start_date: String, $end_date: String) {
@@ -18,15 +22,15 @@ var date = new Date();
 var curr_date = date.getDate();
 var curr_month = date.getMonth(); //Months are zero based
 var curr_year = date.getFullYear();
-export const handleCurrentMonth = (): any => {
+export const handleCurrentMonth = (): Handlefunctype<> => {
 	var firstDay = curr_year + "-" + curr_month + "-" + 1;
 	var lastDay = curr_year + "-" + (curr_month + 1) + "-" + 1;
 	client
 		.query({
 			query: FILTER_QUERY,
 			variables: {
-				start_date: firstDay,
-				end_date: lastDay
+				start_date: "2022-10-01",
+				end_date: "2022-11-20"
 			}
 		})
 		.then(response => {

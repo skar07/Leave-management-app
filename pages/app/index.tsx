@@ -8,6 +8,7 @@ import styles from '../../styles/table/structure.module.css'
 export default function ListingPage() {
 	return (
 		<Layout title={'Your leaves'}>
+			<Filter/>
 			<Table />
 		</Layout>
 	)

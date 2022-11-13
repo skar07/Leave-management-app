@@ -1,0 +1,35 @@
+.container {
+	width: 60vw;
+	height: 50vh;
+	background-color: white;
+	border-radius: 8px;
+	padding: 20px 10px 20px 10px;
+	margin: 5vh 2.5vw;
+	box-shadow: 5px 0px 20px rgb(226 232 240);
+	display:flex;
+}
+
+.heading {
+	display: flex;
+	font-size: larger;
+	font-weight: bold;
+}
+
+.leaveinput {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1vh 1vw 1vh 1vw;
+}
+
+.options {
+	display: flex;
+	
+}
+
+.labels {
+	font-size: large;
+	color: rgb(156 163 175);
+	font-weight: bold;
+}

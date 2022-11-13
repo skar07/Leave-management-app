@@ -1,6 +1,8 @@
 import React from 'react';
 import { Columns } from '../../data/table';
 
+import styles from '../../styles/table/column.module.css'
+
 export const TableColumn: React.FC<TableColumnProps> = () => {
 	return (
 		<tr>
@@ -8,7 +10,7 @@ export const TableColumn: React.FC<TableColumnProps> = () => {
 				{
 					Columns
 						.map((data) => (
-							<th key={data.id}>{data.name}</th>
+							<th key={data.id} className={styles.container}>{data.name}</th>
 						))
 				}
 		</tr>

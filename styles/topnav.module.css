@@ -9,7 +9,7 @@
 	padding: 20px 20px 20px 20px;
 	height: 7vh;
 	width: 85vw;
-	background-color: rgb(228, 228, 227);
+	background-color: rgb(255, 255, 255);
 	padding-left: 3vw;
 }
 
@@ -36,12 +36,11 @@
 
 .linkeffect:hover {
 	color: rgb(2 132 199);
-	border-bottom-width: 3px;
+	border-bottom-width: 3.5px;
 	border-color: rgb(2 132 199);
 	width: 10vw;
 	padding: inherit;
 	text-align: center;
-	
 }
 
 

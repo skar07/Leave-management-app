@@ -3,51 +3,54 @@ import Link from 'next/link';
 import Image from 'next/image'
 import { useRouter } from 'next/router';
 
-import { AUTH_TOKEN } from '../app/constants';
+import { AUTH_TOKEN, REFRESH_TOKEN } from '../app/constants';
 import { gql, useMutation } from '@apollo/client';
+import { client } from '../app/graphql';
+import { UserStore } from '../app/store';
+
 export default function CreateAccount() {
 	const router = useRouter()
+	const { isAuthenticated } = UserStore.useState(s => s);
 	const [formState, setFormState] = React.useState({
 		login: true,
 		email: '',
 		password: '',
 		name: ''
 	});
-	const handleClick = () => {
-		const SIGNUP_MUTATION = gql`
-            mutation SignupMutation(
-                $email: String!
-                $password: String!
-                $name: String!
-            )
-            @rest(
-                type: "Signup", 
-                path: "https://dkgicggupnrxldwvkeft.supabase.co/auth/v1/signup", 
-                method: "POST"
-                ) {               
-                    email: $email
-                    password: $password
-                    data: {
-                        name: $name
-                    }   
-                {
-                    token
-                }
-            }
-        `;
-		const [signup] = useMutation(SIGNUP_MUTATION, {
-			variables: {
-				email: formState.email,
-				password: formState.password,
-				name: formState.name
-			},
-			onCompleted: ({ signup }) => {
-				localStorage.setItem(AUTH_TOKEN, signup.token)
-				router.push('/app/index');
+	const [email, setEmail] = React.useState('');
+	const [password, setPassword] = React.useState('');
+	const [name, setName] = React.useState('')
+	const [confirmPass, setConfirmPass] = React.useState('')
+	React.useEffect(() => {
+		if (isAuthenticated)
+			router.push('app/');
+	});
+	//const handleClick = () => {
+	const SIGNUP_MUTATION = gql`
+            mutation SignupMutation
+				# ($email: String!
+				# $password: String!
+				# $name: String!)
+		{
+			signupResponse(
+				# email: $email
+				# password: $password
+				# data: {
+				# 	name: $name
+				# }
+				input : $input
+			) @rest (
+				type: "Signup",
+				path: "/auth/v1/signup",
+				method: "POST"
+			) {
+				access_token
+				refresh_token
+				expiry
 			}
-		})
+		}
 
-	}
+        `;
 	return (
 		<div className='static w-full flex align-bottom'>
 			<div className='absolute font-semibold top-20 left-20 z-10 space-y-3'>
@@ -67,12 +70,14 @@ export default function CreateAccount() {
 					placeholder='Name'
 					className='py-3.5 px-3 mt-7 w-full text-left rounded-xl border border-blue-300 '
 					required
-					value={formState.name}
-					onChange={(e) =>
-						setFormState({
-							...formState,
-							name: e.target.value
-						})
+					value={name}
+					onChange={(e) => {
+						// 	setFormState({
+						// 		...formState,
+						// 		name: e.target.value
+						// 	})
+						setName(e.target.value)
+					}
 					}
 				/>
 				<input
@@ -80,12 +85,14 @@ export default function CreateAccount() {
 					placeholder='Email address'
 					className='py-3.5 px-3 mt-7 w-full text-left rounded-xl border border-blue-300 '
 					required
-					value={formState.email}
-					onChange={(e) =>
-						setFormState({
-							...formState,
-							email: e.target.value
-						})
+					value={email}
+					onChange={(e) => {
+						// setFormState({
+						// 	...formState,
+						// 	email: e.target.value
+						// })
+						setEmail(e.target.value)
+					}
 					}
 				/>
 				<input
@@ -93,12 +100,14 @@ export default function CreateAccount() {
 					placeholder='Password'
 					className='py-3.5 px-3 mt-7 w-full text-left rounded-xl border border-blue-300 '
 					required
-					value={formState.password}
-					onChange={(e) =>
-						setFormState({
-							...formState,
-							password: e.target.value
-						})
+					value={password}
+					onChange={(e) => {
+						// setFormState({
+						// 	...formState,
+						// 	password: e.target.value
+						// })
+						setPassword(e.target.value)
+					}
 					}
 				/>
 				<input
@@ -106,19 +115,55 @@ export default function CreateAccount() {
 					placeholder='Confirm password'
 					className='py-3.5 px-3 mt-7 w-full text-left rounded-xl border border-blue-300 '
 					required
-					value={formState.password}
-					onChange={(e) =>
-						setFormState({
-							...formState,
-							password: e.target.value
-						})
+					value={confirmPass}
+					onChange={(e) => {
+						// setFormState({
+						// 	...formState,
+						// 	password: e.target.value
+						// })
+						setConfirmPass(e.target.value);
+						password === confirmPass ?
+							setPassword(confirmPass) : null
+					}
 					}
 				/>
 				<div className='flex space-x-2 justify-center'>
 					<input type='checkbox' required />
 					<p className='text-sm font-semibold text-gray-700'>I agree to all <a href='#' className=' text-blue-600'>terms and conditions</a></p>
 				</div>
-				<button className='px-10 py-3.5 text-white font-semibold text-lg bg-blue-700 rounded-xl' onClick={handleClick}>
+				<button className='px-10 py-3.5 text-white font-semibold text-lg bg-blue-700 rounded-xl'
+					onClick={
+						() => {
+							console.log(email, name, password)
+							client
+								.mutate({
+									mutation: SIGNUP_MUTATION,
+									variables: {
+										input: {
+											email,
+											password,
+
+										}
+									}
+								})
+								.then((response) => {
+									const { register } = response?.data;
+									const { access_token, refresh_token, expires_in } = register;
+									if (access_token) {
+										// Update user store to reflect the user's details
+										UserStore.update(
+											s => {
+												s.isAuthenticated = true;
+												s.expires_in = expires_in;
+												s.refresh_token = refresh_token;
+											}
+										)
+										// Save token to local storage
+										localStorage.setItem(AUTH_TOKEN, access_token);
+										localStorage.setItem(REFRESH_TOKEN, refresh_token)
+									}
+								})
+						}}>
 					Sign up
 				</button>
 				<div className='flex justify-center text-gray-800 align-center'>
