@@ -25,9 +25,6 @@ const TableResultComponents: Record<
 
 export const Table = () => {
 	const isChoice = UserStore.useState(s => s.choice);
-	useEffect(() => {
-		console.log(isChoice)
-	}, [isChoice])
 	return <table className={styles.container}>
 		<div className={styles.elements}>
 			<TableColumn />
