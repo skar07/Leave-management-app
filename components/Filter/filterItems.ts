@@ -22,7 +22,7 @@ var date = new Date();
 var curr_date = date.getDate();
 var curr_month = date.getMonth(); //Months are zero based
 var curr_year = date.getFullYear();
-export const handleCurrentMonth = () => {
+export const handleCurrentMonth = ():any => {
 	var firstDay = curr_year + "-" + curr_month + "-" + 1;
 	var lastDay = curr_year + "-" + (curr_month + 1) + "-" + 1;
 	client
@@ -40,6 +40,7 @@ export const handleCurrentMonth = () => {
 			}
 			return [{ result: "None found" }]
 		})
+	
 }
 
 export const handleLastMonth = (): any => {
